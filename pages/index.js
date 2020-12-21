@@ -72,13 +72,13 @@ export default function Home() {
           <button className="text-orientation-button" aria-label="Change Text Orientation" onClick={() => setTextOrientation('left')}>Left to Right</button>
         )}
       </header>
-      <form role="Search Form" className="form-container" onSubmit={handleSubmit}>
-        <input aria-label="Search Bar" className="search-bar" placeholder="Search Chuck's quotes" type="search" autoFocus value={inputValue} onChange={e => setInputValue(e.target.value)} minLength="3" maxLength="120" />
+      <form data-cy="search-form" role="Search Form" className="form-container" onSubmit={handleSubmit}>
+        <input data-cy="search-input" aria-label="Search Bar" className="search-bar" placeholder="Search Chuck's quotes" type="search" autoFocus value={inputValue} onChange={e => setInputValue(e.target.value)} minLength="3" maxLength="120" />
         <input aria-label="Search Button" className="submit-button" type="submit" value="go!"/>
       </form>
       <div role="Results Container" aria-atomic="true">
         {results !== '' ? (
-          <div>
+          <div data-cy="results-container">
             {isLoading === true ? (
               <div role="Spinner Container">
                 <Spinner />
