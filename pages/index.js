@@ -1,65 +1,100 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import { useState } from 'react'
+
+import QuoteCard from '../components/quote-card.component'
 
 export default function Home() {
+  const [results, setResults] = useState('')
+  const [isLoading, setLoading] = useState(true)
+  const [inputValue, setInputValue] = useState('')
+  const [textOrientation, setTextOrientation] = useState('left')
+
+  const runQuery = async () => {
+    const query = inputValue
+    try {
+      await fetch('https://api.chucknorris.io/jokes/search?query=' + `${query}`)
+      .then(response => response.json())
+      .then((jsonResponse) => {
+        setResults(jsonResponse)
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false))
+      .finally(() => setInputValue(''))
+    } catch(error) {
+      console.error(error)
+    }
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    runQuery()
+  }
+
+  const RenderNumberOfResults = () => {
+    if (results.result.length > 0) {
+      return (
+        <h4 aria-label="Number of results">{results.result.length} results</h4>
+      )
+    } else {
+      return null
+    }
+  }
+
+  const RenderListOfResults = () => {
+    if (results.result.length > 0) {
+      return results.result.map((item) => (
+        <QuoteCard
+          key={item.id}
+          title={item.value}
+          imageURL={item.icon_url}
+          orientation={textOrientation}
+         />
+      ))
+    } else {
+      return null
+    }
+  }
+
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
+    <main>
+      <header>
+        <h1 aria-label="Site Title">Chuck Norris Quote Search</h1>
+        {textOrientation === 'left' ? (
+          <button className="text-orientation-button" aria-label="Change Text Orientation" onClick={() => setTextOrientation('right')}>Right to Left</button>
+        ) : (
+          <button className="text-orientation-button" aria-label="Change Text Orientation" onClick={() => setTextOrientation('left')}>Left to Right</button>
+        )}
+      </header>
+      <form role="Search Form" className="form-container" onSubmit={handleSubmit}>
+        <input aria-label="Search Bar" className="search-bar" placeholder="Search Chuck's quotes" type="search" autoFocus value={inputValue} onChange={e => setInputValue(e.target.value)} />
+        <input aria-label="Search Button" className="submit-button" type="submit" value="go!"/>
+      </form>
+      <div role="Results Container" aria-atomic="true">
+        {results !== '' ? (
+          <div>
+            {isLoading === true ? (
+              <div role="Spinner Container">
+                <img src='/dancing-chuck.gif' alt="A Dancing Chuck Norris"/>
+              </div>
+            ) : (
+              <div role="No Results Message">
+              {results.total === 0 ? (
+                <h4 aria-label="No results message" aria-live="polite">Your search did not return any results</h4>
+              ) : (
+                <div role="Results List">
+                  <RenderNumberOfResults />
+                  <RenderListOfResults />
+                </div>
+              )}
+              </div>
+            )}
+          </div>
+        ) : (
+          <h4 aria-label="Initial Message">
+            Search thousands of Chuck Norris quotes
+          </h4>
+        )}
+      </div>
+    </main>
   )
 }
