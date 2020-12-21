@@ -1,16 +1,22 @@
-import { useState } from 'react'
+import { useState, Suspense, lazy } from 'react'
 
-import QuoteCard from '../components/quote-card.component'
+// import QuoteCard from '../components/quote-card.component'
+import Spinner from '../components/spinner.component'
+import LoadingCard from '../components/loading-card.component'
+
+const QuoteCard = lazy(() => import('../components/quote-card.component'))
 
 export default function Home() {
   const [results, setResults] = useState('')
-  const [isLoading, setLoading] = useState(true)
+  const [isLoading, setLoading] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const [textOrientation, setTextOrientation] = useState('left')
 
   const runQuery = async () => {
     const query = inputValue
     try {
+      setResults('')
+      setLoading(true)
       await fetch('https://api.chucknorris.io/jokes/search?query=' + `${query}`)
       .then(response => response.json())
       .then((jsonResponse) => {
@@ -42,12 +48,13 @@ export default function Home() {
   const RenderListOfResults = () => {
     if (results.result.length > 0) {
       return results.result.map((item) => (
-        <QuoteCard
-          key={item.id}
-          title={item.value}
-          imageURL={item.icon_url}
-          orientation={textOrientation}
-         />
+        <Suspense key={item.id} fallback={LoadingCard}>
+          <QuoteCard
+            title={item.value}
+            imageURL={item.icon_url}
+            orientation={textOrientation}
+          />
+         </Suspense>
       ))
     } else {
       return null
@@ -66,7 +73,7 @@ export default function Home() {
         )}
       </header>
       <form role="Search Form" className="form-container" onSubmit={handleSubmit}>
-        <input aria-label="Search Bar" className="search-bar" placeholder="Search Chuck's quotes" type="search" autoFocus value={inputValue} onChange={e => setInputValue(e.target.value)} />
+        <input aria-label="Search Bar" className="search-bar" placeholder="Search Chuck's quotes" type="search" autoFocus value={inputValue} onChange={e => setInputValue(e.target.value)} minLength="3" maxLength="120" />
         <input aria-label="Search Button" className="submit-button" type="submit" value="go!"/>
       </form>
       <div role="Results Container" aria-atomic="true">
@@ -74,10 +81,10 @@ export default function Home() {
           <div>
             {isLoading === true ? (
               <div role="Spinner Container">
-                <img src='/dancing-chuck.gif' alt="A Dancing Chuck Norris"/>
+                <Spinner />
               </div>
             ) : (
-              <div role="No Results Message">
+              <div role="Results Sub-Container">
               {results.total === 0 ? (
                 <h4 aria-label="No results message" aria-live="polite">Your search did not return any results</h4>
               ) : (
@@ -90,9 +97,17 @@ export default function Home() {
             )}
           </div>
         ) : (
-          <h4 aria-label="Initial Message">
-            Search thousands of Chuck Norris quotes
-          </h4>
+          <div role="Results Sub-Container">
+            {isLoading === true ? (
+              <div role="Spinner Container">
+                  <Spinner />
+                </div>
+            ) : (
+              <h4 aria-label="Initial Message">
+              Search thousands of Chuck Norris quotes
+            </h4>
+            )}
+          </div>
         )}
       </div>
     </main>
