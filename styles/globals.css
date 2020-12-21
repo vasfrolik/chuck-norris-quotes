@@ -1,3 +1,4 @@
+/* Globals and Resets */
 html,
 body {
   padding: 0;
@@ -12,16 +13,21 @@ a {
   color: inherit;
   text-decoration: none;
 }
-
 * {
   box-sizing: border-box;
 }
 
+/* Main page */
 main {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 1% 20vw 1% 20vw;
+}
+@media screen and (max-width: 768px) {
+  main {
+    padding: 1% 5vw 1% 5vw;
+  }
 }
 .text-orientation-button {
   height: 20px;
@@ -41,6 +47,9 @@ main {
   top: 20px;
   right: 50px;
 }
+h1 {
+  text-align: center;
+}
 .form-container {
   display: flex;
   flex-direction: row;
@@ -57,6 +66,17 @@ main {
   border-width: 1.5px;
   padding: 0.5%;
   font-size: 16px;
+}
+.search-bar-right-text {
+  border-radius: 6px;
+  height: 40px;
+  width: 100%;
+  border-color: #eaeaea;
+  border-style: solid;
+  border-width: 1.5px;
+  padding: 0.5%;
+  font-size: 16px;
+  text-align: right;
 }
 .search-bar:focus {
   border-color: #545454;
@@ -82,6 +102,7 @@ h4 {
   font-size: 24px;
 }
 
+/* Card Component */
 .card-container {
   display: flex;
   flex-direction: column;
@@ -93,16 +114,15 @@ h4 {
   padding: 2%;
   margin: 2% 0 2% 0;
 }
-
-.right-text {
-  text-align: right;
-}
-
 .card-container img {
   height: 48px;
   width: 48px;
 }
+.right-text {
+  text-align: right;
+}
 
+/* Spinner Component */
 .spinner-container {
   display: flex;
   flex-direction: column;

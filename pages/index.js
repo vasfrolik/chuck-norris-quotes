@@ -1,6 +1,5 @@
 import { useState, Suspense, lazy } from 'react'
 
-// import QuoteCard from '../components/quote-card.component'
 import Spinner from '../components/spinner.component'
 import LoadingCard from '../components/loading-card.component'
 
@@ -9,12 +8,12 @@ const QuoteCard = lazy(() => import('../components/quote-card.component'))
 export default function Home() {
   const [results, setResults] = useState('')
   const [isLoading, setLoading] = useState(false)
-  const [inputValue, setInputValue] = useState('')
+  const [query, setQuery] = useState('')
   const [textOrientation, setTextOrientation] = useState('left')
 
   const runQuery = async () => {
-    const query = inputValue
     try {
+      // clean up results and set loading true for scenarios where user is conducting a second search TODO: explain this better
       setResults('')
       setLoading(true)
       await fetch('https://api.chucknorris.io/jokes/search?query=' + `${query}`)
@@ -24,7 +23,8 @@ export default function Home() {
       })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false))
-      .finally(() => setInputValue(''))
+      // Clean up query value in search bar input
+      .finally(() => setQuery(''))
     } catch(error) {
       console.error(error)
     }
@@ -36,6 +36,7 @@ export default function Home() {
   }
 
   const RenderNumberOfResults = () => {
+    // Only show number of results if there are results - rest of logic in JSX markup below
     if (results.result.length > 0) {
       return (
         <h4 aria-label="Number of results">{results.result.length} results</h4>
@@ -46,6 +47,7 @@ export default function Home() {
   }
 
   const RenderListOfResults = () => {
+    // Only show number of results if there are results - rest of logic in JSX markup below
     if (results.result.length > 0) {
       return results.result.map((item) => (
         <Suspense key={item.id} fallback={LoadingCard}>
@@ -64,6 +66,7 @@ export default function Home() {
 
   return (
     <main>
+    {/* HEADER */}
       <header>
         <h1 aria-label="Site Title">Chuck Norris Quote Search</h1>
         {textOrientation === 'left' ? (
@@ -72,13 +75,17 @@ export default function Home() {
           <button className="text-orientation-button" aria-label="Change Text Orientation" onClick={() => setTextOrientation('left')}>Left to Right</button>
         )}
       </header>
+    {/* SEARCH BAR COMPONENT */}
       <form data-cy="search-form" role="Search Form" className="form-container" onSubmit={handleSubmit}>
-        <input data-cy="search-input" aria-label="Search Bar" className="search-bar" placeholder="Search Chuck's quotes" type="search" autoFocus value={inputValue} onChange={e => setInputValue(e.target.value)} minLength="3" maxLength="120" />
+        <input data-cy="search-input"  className={'search-bar' + (textOrientation === 'right' ? '-right-text' : '')} aria-label="Search Bar" placeholder="Search Chuck's quotes" type="search" autoFocus value={query} onChange={e => setQuery(e.target.value)} minLength="3" maxLength="120" />
         <input aria-label="Search Button" className="submit-button" type="submit" value="go!"/>
       </form>
+      {/* RESULTS CONTAINER */}
       <div role="Results Container" aria-atomic="true">
+      {/* SHOW IF RESULTS ONLY */}
         {results !== '' ? (
           <div data-cy="results-container">
+          {/* SHOW SPINNER IF LOADING */}
             {isLoading === true ? (
               <div role="Spinner Container">
                 <Spinner />
@@ -98,6 +105,7 @@ export default function Home() {
           </div>
         ) : (
           <div role="Results Sub-Container">
+          {/* RESULTS CONTAINER WHEN USER HASN'T SEARCHED YET */}
             {isLoading === true ? (
               <div role="Spinner Container">
                   <Spinner />
