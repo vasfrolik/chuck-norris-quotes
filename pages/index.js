@@ -13,7 +13,7 @@ export default function Home() {
 
   const runQuery = async () => {
     try {
-      // clean up results and set loading true for scenarios where user is conducting a second search TODO: explain this better
+      // clean up results and set loading true
       setResults('')
       setLoading(true)
       await fetch('https://api.chucknorris.io/jokes/search?query=' + `${query}`)
@@ -47,7 +47,7 @@ export default function Home() {
   }
 
   const RenderListOfResults = () => {
-    // Only show number of results if there are results - rest of logic in JSX markup below
+    // Only show if there are results - rest of logic in JSX markup below
     if (results.result.length > 0) {
       return results.result.map((item) => (
         <Suspense key={item.id} fallback={LoadingCard}>
@@ -69,11 +69,6 @@ export default function Home() {
     {/* HEADER */}
       <header>
         <h1 aria-label="Site Title">Chuck Norris Quote Search</h1>
-        {textOrientation === 'left' ? (
-          <button className="text-orientation-button" aria-label="Change Text Orientation" onClick={() => setTextOrientation('right')}>Right to Left</button>
-        ) : (
-          <button className="text-orientation-button" aria-label="Change Text Orientation" onClick={() => setTextOrientation('left')}>Left to Right</button>
-        )}
       </header>
     {/* SEARCH BAR COMPONENT */}
       <form data-cy="search-form" role="Search Form" className="form-container" onSubmit={handleSubmit}>
@@ -116,6 +111,14 @@ export default function Home() {
             </h4>
             )}
           </div>
+        )}
+      </div>
+      {/* FLOATING BUTTON TO CHANGE TO LEFT/RIGHT ALIGNMENT */}
+      <div role="Floating Button Container">
+      {textOrientation === 'left' ? (
+          <button className="text-orientation-button" aria-label="Change Text Orientation" onClick={() => setTextOrientation('right')}><img src='/alignment-right.svg' alt="Right Alignment Icon" aria-label="Set Text Alignment To Right"/></button>
+        ) : (
+          <button className="text-orientation-button" aria-label="Change Text Orientation" onClick={() => setTextOrientation('left')}><img src='/alignment-left.svg' alt="Left Alignment Icon" aria-label="Set Text Alignment To Left"/></button>
         )}
       </div>
     </main>
