@@ -40,7 +40,9 @@ h1 {
   width: 100%;
 }
 .search-bar {
-  border-radius: 2%;
+  border-radius: 5px;
+  -webkit-border-radius:5px;
+  -moz-border-radius:5px;
   height: 40px;
   width: 100%;
   border-color: #eaeaea;
@@ -50,7 +52,9 @@ h1 {
   font-size: 16px;
 }
 .search-bar-right-text {
-  border-radius: 2%;
+  border-radius: 5px;
+  -webkit-border-radius:5px;
+  -moz-border-radius:5px;
   height: 40px;
   width: 100%;
   border-color: #eaeaea;
@@ -73,7 +77,9 @@ h1 {
   color: black;
   font-weight: 900;
   text-transform: capitalize;
-  border-radius: 2%;
+  border-radius: 5px;
+  -webkit-border-radius:5px;
+  -moz-border-radius:5px;
   font-size: 16px;
   margin-left: 5px;
   cursor: pointer;
@@ -89,7 +95,9 @@ h4 {
   display: flex;
   flex-direction: column;
   border-width: 1px;
-  border-radius: 2%;
+  border-radius: 5px;
+  -webkit-border-radius:5px;
+  -moz-border-radius:5px;
   border-color: #eaeaea;
   border-style: solid;
   align-items: center;
@@ -105,6 +113,7 @@ h4 {
 }
 .card-container h2 {
   max-width: 100%;
+  word-wrap: break-word
 }
 
 /* Spinner Component */
