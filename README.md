@@ -1,7 +1,7 @@
 # Chuck Norris Quotes Search Component
 This page allows you to run a text search on all Chuck Norris quotes and jokes made available by the Chuck Norris API (api.chucknorris.io)
 
-The page is built with Next.js and hosted on Vercel (insert url here)
+The page is built with Next.js and hosted on Vercel
 
 See the live demo here: https://chuck-norris-quotes.vercel.app
 ### Structure
