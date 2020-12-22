@@ -2,6 +2,8 @@
 This page allows you to run a text search on all Chuck Norris quotes and jokes made available by the Chuck Norris API (api.chucknorris.io)
 
 The page is built with Next.js and hosted on Vercel (insert url here)
+
+See the live demo here: https://chuck-norris-quotes.vercel.app
 ### Structure
 
 The application only includes one page and three components:
@@ -12,7 +14,8 @@ The application only includes one page and three components:
 
 ### Logic
 The API logic is included in the index.js file, it uses the native browser fetch() method.
-The function has an initial state clean-up function to clear up any results present if users have already completed one search
+
+The function has an initial state clean-up function to clear up any results present if users have already completed one search.
 
 ### Styling
 All styling is included in styles/globals.css
@@ -30,7 +33,6 @@ React Hooks are used for state management, the only hook used is useState and al
 Each Semantic element has been accessibility tested with VoiceOver on MAC and includes ARIA labels and tags where necessary.
 
 ### Left to Right
-
 There is a left to right button floating in the bottom right that allows you to switch from left aligned reading (for English, Spanish language, etc.) to right aligned reading (Mandarin, Arabic, Japanese, etc.) and viceversa.
 
 ## Getting Started
@@ -55,5 +57,9 @@ To run the test:
 yarn run-test
 ```
 
+### Hosting
 
+The project is fully hosted on Vercel via GitHub integration, each time a commit is pushed to main the site will build and deploy.
+
+See the live demo here: https://chuck-norris-quotes.vercel.app
 
