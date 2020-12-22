@@ -103,6 +103,9 @@ h4 {
 .right-text {
   text-align: right;
 }
+.card-container h2 {
+  max-width: 100%;
+}
 
 /* Spinner Component */
 .spinner-container {
