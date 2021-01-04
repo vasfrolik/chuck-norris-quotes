@@ -32,9 +32,6 @@ React Hooks are used for state management, the only hook used is useState and al
 ### Accessibility 
 Each Semantic element has been accessibility tested with VoiceOver on MAC and includes ARIA labels and tags where necessary.
 
-### Left to Right
-There is a left to right button floating in the bottom right that allows you to switch from left aligned reading (for English, Spanish language, etc.) to right aligned reading (Mandarin, Arabic, Japanese, etc.) and viceversa.
-
 ## Getting Started
 
 First, run the development server:
